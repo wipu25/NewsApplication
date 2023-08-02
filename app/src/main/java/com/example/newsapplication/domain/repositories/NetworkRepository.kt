@@ -1,8 +1,8 @@
 package com.example.newsapplication.domain.repositories
 
+import com.example.newsapplication.data.network.APIInterface
 import com.example.newsapplication.domain.models.AllNews
 import com.example.newsapplication.domain.models.SearchQuery
-import com.example.newsapplication.data.network.APIInterface
 
 class NetworkRepository(
     private val apiInterface: APIInterface

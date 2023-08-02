@@ -29,19 +29,25 @@ import java.text.DateFormat
 fun NewsArticleScreen(article: Article?) {
     val uriHandler = LocalUriHandler.current
     Box(
-            Modifier.fillMaxSize().background(Color.White),
-            contentAlignment = Alignment.Center
-        ) {
-            if(article == null) {
-                Text(text = stringResource(id = R.string.something_wrong))
-            } else {
-                Column(Modifier.padding(16.dp)) {
-                    Text(
-                        text = article.title ?: stringResource(id = R.string.no_article),
-                        style = Typography.h3
-                    )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    if (article.urlToImage != null)
+        Modifier
+            .fillMaxSize()
+            .background(Color.White),
+        contentAlignment = Alignment.Center
+    ) {
+        if (article == null) {
+            Text(text = stringResource(id = R.string.something_wrong))
+        } else {
+            Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.Top) {
+                Text(
+                    text = article.title ?: stringResource(id = R.string.no_article),
+                    style = Typography.h3
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                if (article.urlToImage != null)
+                    Box(
+                        Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
                         SubcomposeAsyncImage(
                             article.urlToImage,
                             contentDescription = stringResource(id = R.string.news_image),
@@ -56,70 +62,71 @@ fun NewsArticleScreen(article: Article?) {
                                 }
                             },
                             modifier = Modifier.clip(Shapes.large),
-                        ) else
-                        Box(
-                            Modifier
-                                .fillMaxWidth()
-                                .background(color = Color.White, shape = Shapes.large)
-                                .align(alignment = Alignment.CenterHorizontally)
-                        ) {
-                            Image(
-                                painter = painterResource(
-                                    R.drawable.globe
-                                ),
-                                contentScale = ContentScale.FillHeight,
-                                contentDescription = null,
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                            )
-                        }
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Row(Modifier.fillMaxWidth()) {
-                        Text(
-                            text = "${article.author ?: " ${stringResource(id = R.string.unknown)} "}, ${
-                                article.source?.name ?: stringResource(
-                                    id = R.string.unknown
-                                )
-                            }", style = Typography.body2,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            modifier = Modifier.weight(1f)
                         )
-                        Text(
-                            text = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT)
-                                .format(article.publishedAt)
-                                ?: stringResource(id = R.string.unknown),
-                            style = Typography.body2,
+                    } else
+                    Box(
+                        Modifier
+                            .fillMaxWidth()
+                            .background(color = Color.White, shape = Shapes.large)
+                            .align(alignment = Alignment.CenterHorizontally)
+                    ) {
+                        Image(
+                            painter = painterResource(
+                                R.drawable.globe
+                            ),
+                            contentScale = ContentScale.FillHeight,
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
                         )
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(4.dp))
+                Row(Modifier.fillMaxWidth()) {
                     Text(
-                        text = article.description ?: stringResource(id = R.string.empty),
-                        style = Typography.body1
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Divider(color = Color.Black, thickness = 1.dp)
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Text(
-                        text = "    ${article.content ?: stringResource(id = R.string.empty)}",
-                        style = Typography.h4
-                    )
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Text(
-                        text = stringResource(id = R.string.more_info),
-                        style = Typography.subtitle2
+                        text = "${article.author ?: " ${stringResource(id = R.string.unknown)} "}, ${
+                            article.source?.name ?: stringResource(
+                                id = R.string.unknown
+                            )
+                        }", style = Typography.body2,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f)
                     )
                     Text(
-                        text = article.url ?: stringResource(id = R.string.unknown),
-                        modifier = Modifier
-                            .clickable {
-                                article.url?.let {
-                                    uriHandler.openUri(article.url)
-                                }
-                            },
-                        style = if (article.url != null) Typography.caption else Typography.subtitle2
+                        text = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT)
+                            .format(article.publishedAt)
+                            ?: stringResource(id = R.string.unknown),
+                        style = Typography.body2,
                     )
                 }
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = article.description ?: stringResource(id = R.string.empty),
+                    style = Typography.body1
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Divider(color = Color.Black, thickness = 1.dp)
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = "    ${article.content ?: stringResource(id = R.string.empty)}",
+                    style = Typography.h4
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = stringResource(id = R.string.more_info),
+                    style = Typography.subtitle2
+                )
+                Text(
+                    text = article.url ?: stringResource(id = R.string.unknown),
+                    modifier = Modifier
+                        .clickable {
+                            article.url?.let {
+                                uriHandler.openUri(article.url)
+                            }
+                        },
+                    style = if (article.url != null) Typography.caption else Typography.subtitle2
+                )
             }
         }
+    }
 }

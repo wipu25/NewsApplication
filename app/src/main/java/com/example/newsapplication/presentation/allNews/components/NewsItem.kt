@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -77,7 +76,8 @@ fun NewsItem(article: Article, onClick: () -> Unit) {
                         modifier = Modifier.weight(1f)
                     )
                     Text(
-                        text = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(article.publishedAt) ?: "Unknown",
+                        text = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT)
+                            .format(article.publishedAt) ?: "Unknown",
                         fontSize = 12.sp,
                     )
                 }

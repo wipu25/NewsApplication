@@ -60,20 +60,22 @@ fun NewsApp(
     )
     Scaffold(
         topBar = {
-           NewsAppBar(currentScreen = currentScreen,
-               canNavigateBack = navController.previousBackStackEntry != null,
-               navigateBack = { navController.navigateUp() }
-           )
+            NewsAppBar(currentScreen = currentScreen,
+                canNavigateBack = navController.previousBackStackEntry != null,
+                navigateBack = { navController.navigateUp() }
+            )
         },
         backgroundColor = Color.LightGray
-    ) {innerPadding ->
+    ) { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = NewsScreen.AllNews.name,
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(NewsScreen.AllNews.name) {
-                AllNewsScreen(viewModel ,navigateToArticle = { navController.navigate(NewsScreen.NewsArticle.name) })
+                AllNewsScreen(
+                    viewModel,
+                    navigateToArticle = { navController.navigate(NewsScreen.NewsArticle.name) })
             }
             composable(NewsScreen.NewsArticle.name) {
                 NewsArticleScreen(viewModel.selectedArticle.value)
