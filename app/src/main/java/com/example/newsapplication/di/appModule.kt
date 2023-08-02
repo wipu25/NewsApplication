@@ -19,11 +19,12 @@ val appModule = module {
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             .create()
     }
-    single<Retrofit> { Retrofit
-        .Builder()
-        .baseUrl(baseUrl)
-        .addConverterFactory(GsonConverterFactory.create(get<Gson>()))
-        .build()
+    single<Retrofit> {
+        Retrofit
+            .Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create(get<Gson>()))
+            .build()
     }
     single { get<Retrofit>().create(APIInterface::class.java) }
     single { NetworkRepository(get()) }

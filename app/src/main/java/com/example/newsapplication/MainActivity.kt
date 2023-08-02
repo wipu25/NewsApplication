@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        startKoin{
+        startKoin {
             androidLogger()
             androidContext(this@MainActivity)
             modules(appModule)

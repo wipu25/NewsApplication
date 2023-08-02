@@ -2,10 +2,7 @@ package com.example.newsapplication.data.network
 
 import com.example.newsapplication.domain.models.AllNews
 import com.example.newsapplication.domain.models.Category
-import com.google.gson.GsonBuilder
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 

@@ -1,5 +1,6 @@
 package com.example.newsapplication.presentation.allNews
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -64,7 +65,17 @@ fun AllNewsScreen(viewModel: AllNewsViewModel, navigateToArticle: () -> Unit) {
                         disabledIndicatorColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
-                    )
+                    ),
+                    trailingIcon = {
+                        if (!viewModel.searchText.value.isNullOrEmpty())
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_close_24),
+                                stringResource(id = R.string.close_icon),
+                                Modifier.clickable {
+                                    viewModel.updateSearch("")
+                                }
+                            )
+                    }
                 )
             }
             Row(

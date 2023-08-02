@@ -18,7 +18,7 @@ class AllNewsViewModel(private val networkRepository: NetworkRepository) : ViewM
     private val _searchQuery: MutableLiveData<SearchQuery?> = MutableLiveData(SearchQuery())
     private val _searchText: MutableLiveData<String> = MutableLiveData("")
     private val _categoryChip: MutableLiveData<Category> = MutableLiveData(Category.GENERAL)
-    private val _selectedArticle : MutableLiveData<Article> = MutableLiveData(null)
+    private val _selectedArticle: MutableLiveData<Article> = MutableLiveData(null)
     val searchText: LiveData<String>
         get() = _searchText
     val categoryChip: LiveData<Category>
@@ -43,7 +43,12 @@ class AllNewsViewModel(private val networkRepository: NetworkRepository) : ViewM
 
     fun getNews(): Flow<PagingData<Article>> {
         return Pager(
-            pagingSourceFactory = { AllNewsPagingDataSource(networkRepository, _searchQuery.value) },
+            pagingSourceFactory = {
+                AllNewsPagingDataSource(
+                    networkRepository,
+                    _searchQuery.value
+                )
+            },
             config = PagingConfig(pageSize = 10)
         ).flow.cachedIn(viewModelScope)
     }
