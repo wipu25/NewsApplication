@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">NewsApplication</string>
+    <string name="all_news">All News</string>
+    <string name="news_article">News Article</string>
+    <string name="back_button">Back Button</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="search_placeholder">Search Here!!!</string>
+    <string name="error_loading">Error Loading News</string>
+    <string name="loading">Loading News</string>
+    <string name="loading_more">Loading More News</string>
+    <string name="news_image">News Image</string>
+
+    <string name="no_article">No Article</string>
+    <string name="unknown">Unknown</string>
+    <string name="empty" />
+    <string name="more_info">For More Information</string>
+
+    <string name="something_wrong">Ooops Something went wrong!!</string>
+</resources>
