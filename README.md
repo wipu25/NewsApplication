@@ -26,6 +26,6 @@ This NewsApplication using following library to created:
 7. Navigation Compose
 
 ## ScreenShot
-![Screenshot_2023-08-02-16-25-57-763_com example newsapplication](https://github.com/wipu25/NewsApplication/assets/43128850/ff2b6d17-4619-4224-a063-5cce4d90d6a4)
-![Screenshot_2023-08-02-16-26-18-880_com example newsapplication](https://github.com/wipu25/NewsApplication/assets/43128850/43682b60-6aab-471b-96eb-af3a63238e6a)
-![Screenshot_2023-08-02-16-25-51-512_com example newsapplication](https://github.com/wipu25/NewsApplication/assets/43128850/19878eeb-b07c-46fb-8763-03a6a4a7f4df)
+![Screenshot_2023-08-02-16-26-18-880_com example newsapplication](https://github.com/wipu25/NewsApplication/assets/43128850/4816117a-905b-45cd-99a2-fa30f4d8defa)
+![Screenshot_2023-08-02-16-25-57-763_com example newsapplication](https://github.com/wipu25/NewsApplication/assets/43128850/85d4bddf-6e42-4077-bacb-e61d89ff36f6)
+![Screenshot_2023-08-02-16-25-51-512_com example newsapplication](https://github.com/wipu25/NewsApplication/assets/43128850/5a3ce8a4-e613-45b6-9945-b76381c4ed4a)
