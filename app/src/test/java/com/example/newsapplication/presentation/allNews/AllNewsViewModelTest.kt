@@ -1,10 +1,9 @@
-package com.example.newsapplication.ui.test
+package com.example.newsapplication.presentation.allNews
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.newsapplication.domain.models.Article
 import com.example.newsapplication.domain.models.Category
 import com.example.newsapplication.domain.repositories.NetworkRepository
-import com.example.newsapplication.presentation.allNews.AllNewsViewModel
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
