@@ -1,10 +1,13 @@
 package com.example.newsapplication.di
 
 import com.example.newsapplication.data.network.APIInterface
+import com.example.newsapplication.domain.models.Item
 import com.example.newsapplication.domain.repositories.NetworkRepository
 import com.example.newsapplication.presentation.allNews.AllNewsViewModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import io.realm.kotlin.Realm
+import io.realm.kotlin.RealmConfiguration
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
@@ -28,5 +31,6 @@ val appModule = module {
     }
     single { get<Retrofit>().create(APIInterface::class.java) }
     single { NetworkRepository(get()) }
+    single { Realm.open(RealmConfiguration.create(schema = setOf(Item::class))) }
     viewModel { AllNewsViewModel(get()) }
 }

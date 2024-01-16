@@ -9,8 +9,11 @@ import com.example.newsapplication.presentation.ui.theme.NewsApplicationTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.GlobalContext.startKoin
+import org.koin.core.context.stopKoin
 
 class MainActivity : ComponentActivity() {
+
+//    private val allNewsViewModel: AllNewsViewModel by inject()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -25,5 +28,10 @@ class MainActivity : ComponentActivity() {
                 NewsApp()
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stopKoin()
     }
 }
