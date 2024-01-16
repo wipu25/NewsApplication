@@ -10,7 +10,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
@@ -18,13 +17,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import coil.compose.SubcomposeAsyncImage
+import com.bumptech.glide.integration.compose.*
 import com.example.newsapplication.R
 import com.example.newsapplication.domain.models.Article
 import com.example.newsapplication.presentation.ui.theme.Shapes
 import com.example.newsapplication.presentation.ui.theme.Typography
 import java.text.DateFormat
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun NewsArticleScreen(article: Article?) {
     val uriHandler = LocalUriHandler.current
@@ -45,24 +45,21 @@ fun NewsArticleScreen(article: Article?) {
                 Spacer(modifier = Modifier.height(16.dp))
                 if (article.urlToImage != null)
                     Box(
-                        Modifier.fillMaxWidth(),
                         contentAlignment = Alignment.Center
                     ) {
-                        SubcomposeAsyncImage(
+                        GlideSubcomposition(
                             article.urlToImage,
-                            contentDescription = stringResource(id = R.string.news_image),
-                            loading = {
-                                Box(
-                                    Modifier
-                                        .fillMaxWidth()
-                                        .padding(16.dp),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    CircularProgressIndicator()
-                                }
-                            },
-                            modifier = Modifier.clip(Shapes.large),
-                        )
+                            modifier = Modifier.fillMaxWidth().height(160.dp),
+                        ) {
+                            when (state) {
+                                RequestState.Failure,RequestState.Loading -> CircularProgressIndicator(modifier = Modifier.height(40.dp))
+                                is RequestState.Success -> Image(
+                                    modifier = Modifier.fillMaxSize(),
+                                    painter = painter,
+                                    contentDescription = null,
+                                )
+                            }
+                        }
                     } else
                     Box(
                         Modifier

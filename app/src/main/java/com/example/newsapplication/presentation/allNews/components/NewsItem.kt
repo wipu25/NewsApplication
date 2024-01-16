@@ -1,6 +1,5 @@
 package com.example.newsapplication.presentation.allNews.components
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,18 +10,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.rememberAsyncImagePainter
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.integration.compose.placeholder
 import com.example.newsapplication.R
 import com.example.newsapplication.domain.models.Article
 import com.example.newsapplication.presentation.ui.theme.Shapes
 import java.text.DateFormat
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun NewsItem(article: Article, onClick: () -> Unit) {
     Box(
@@ -42,16 +43,14 @@ fun NewsItem(article: Article, onClick: () -> Unit) {
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.Start
         ) {
-            Image(
-                painter = if (article.urlToImage != null) rememberAsyncImagePainter(article.urlToImage) else painterResource(
-                    R.drawable.globe
-                ),
-                contentScale = ContentScale.FillHeight,
+            GlideImage(
+                loading = placeholder(R.drawable.globe),
+                model = article.urlToImage,
                 contentDescription = null,
+                contentScale = ContentScale.FillHeight,
                 modifier = Modifier
-                    .width(120.dp)
-                    .height(80.dp)
-            )
+                .width(120.dp)
+                .height(80.dp))
             Column(
                 Modifier
                     .padding(horizontal = 8.dp)
