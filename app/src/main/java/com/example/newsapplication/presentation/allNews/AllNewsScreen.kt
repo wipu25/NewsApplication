@@ -21,9 +21,10 @@ import com.example.newsapplication.domain.models.Category
 import com.example.newsapplication.presentation.allNews.components.CategoryChip
 import com.example.newsapplication.presentation.allNews.components.NewsItem
 import com.example.newsapplication.presentation.ui.theme.Shapes
+import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun AllNewsScreen(viewModel: AllNewsViewModel, navigateToArticle: () -> Unit) {
+fun AllNewsScreen(viewModel: AllNewsViewModel = getViewModel(), navigateToArticle: () -> Unit) {
     var reload by remember { mutableStateOf(false) }
     val categoryScrollState = rememberScrollState()
 

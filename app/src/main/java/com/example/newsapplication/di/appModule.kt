@@ -3,7 +3,9 @@ package com.example.newsapplication.di
 import com.example.newsapplication.data.network.APIInterface
 import com.example.newsapplication.domain.models.Item
 import com.example.newsapplication.domain.repositories.NetworkRepository
+import com.example.newsapplication.domain.usecase.SelectArticleUseCase
 import com.example.newsapplication.presentation.allNews.AllNewsViewModel
+import com.example.newsapplication.presentation.newsArticle.NewsArticleViewModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import io.realm.kotlin.Realm
@@ -32,5 +34,10 @@ val appModule = module {
     single { get<Retrofit>().create(APIInterface::class.java) }
     single { NetworkRepository(get()) }
     single { Realm.open(RealmConfiguration.create(schema = setOf(Item::class))) }
-    viewModel { AllNewsViewModel(get()) }
+}
+
+val newsModule = module {
+    single { SelectArticleUseCase() }
+    viewModel { AllNewsViewModel(get(), get()) }
+    viewModel { NewsArticleViewModel(get()) }
 }

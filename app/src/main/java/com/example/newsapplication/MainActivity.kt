@@ -8,12 +8,15 @@ import com.example.newsapplication.presentation.NewsApp
 import com.example.newsapplication.presentation.ui.theme.NewsApplicationTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
+import org.koin.android.scope.AndroidScopeComponent
+import org.koin.androidx.scope.ScopeActivity
+import org.koin.androidx.scope.activityScope
 import org.koin.core.context.GlobalContext.startKoin
 import org.koin.core.context.stopKoin
+import org.koin.core.scope.Scope
 
-class MainActivity : ComponentActivity() {
-
-//    private val allNewsViewModel: AllNewsViewModel by inject()
+class MainActivity : ComponentActivity(), AndroidScopeComponent {
+    override val scope: Scope by activityScope()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

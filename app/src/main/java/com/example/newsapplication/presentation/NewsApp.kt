@@ -16,10 +16,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.newsapplication.R
+import com.example.newsapplication.di.newsModule
 import com.example.newsapplication.presentation.allNews.AllNewsScreen
 import com.example.newsapplication.presentation.allNews.AllNewsViewModel
 import com.example.newsapplication.presentation.newsArticle.NewsArticleScreen
 import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.module.rememberKoinModules
+import org.koin.core.annotation.KoinExperimentalAPI
 
 enum class NewsScreen(@StringRes val title: Int) {
     AllNews(title = R.string.all_news),
@@ -49,11 +52,12 @@ fun NewsAppBar(
     )
 }
 
+@OptIn(KoinExperimentalAPI::class)
 @Composable
 fun NewsApp(
     navController: NavHostController = rememberNavController(),
-    viewModel: AllNewsViewModel = koinViewModel()
 ) {
+    rememberKoinModules(unloadOnForgotten = true,modules = { listOf(newsModule) })
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = NewsScreen.valueOf(
         backStackEntry?.destination?.route ?: NewsScreen.AllNews.name
@@ -74,11 +78,10 @@ fun NewsApp(
         ) {
             composable(NewsScreen.AllNews.name) {
                 AllNewsScreen(
-                    viewModel,
                     navigateToArticle = { navController.navigate(NewsScreen.NewsArticle.name) })
             }
             composable(NewsScreen.NewsArticle.name) {
-                NewsArticleScreen(viewModel.selectedArticle.value)
+                NewsArticleScreen()
             }
         }
     }

@@ -12,19 +12,21 @@ import com.example.newsapplication.domain.models.Article
 import com.example.newsapplication.domain.models.Category
 import com.example.newsapplication.domain.models.SearchQuery
 import com.example.newsapplication.domain.repositories.NetworkRepository
+import com.example.newsapplication.domain.usecase.SelectArticleUseCase
 import kotlinx.coroutines.flow.Flow
+import org.koin.compose.koinInject
 
-class AllNewsViewModel(private val networkRepository: NetworkRepository) : ViewModel() {
+class AllNewsViewModel(private val networkRepository: NetworkRepository, private val selectArticleUseCase: SelectArticleUseCase) : ViewModel() {
     private val _searchQuery: MutableLiveData<SearchQuery?> = MutableLiveData(SearchQuery())
     private val _searchText: MutableLiveData<String> = MutableLiveData("")
     private val _categoryChip: MutableLiveData<Category> = MutableLiveData(Category.GENERAL)
-    private val _selectedArticle: MutableLiveData<Article> = MutableLiveData(null)
+
     val searchText: LiveData<String>
         get() = _searchText
     val categoryChip: LiveData<Category>
         get() = _categoryChip
     val selectedArticle: LiveData<Article>
-        get() = _selectedArticle
+        get() = MutableLiveData(selectArticleUseCase.selectedArticle)
 
     fun updateSearch(value: String) {
         _searchText.value = value
@@ -32,8 +34,7 @@ class AllNewsViewModel(private val networkRepository: NetworkRepository) : ViewM
     }
 
     fun selectNewArticle(value: Article) {
-        _selectedArticle.value = value
-        //TODO: Navigate to new route
+        selectArticleUseCase.setSelectedArticle(value)
     }
 
     fun updateCategory(value: Category) {
