@@ -4,10 +4,10 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.newsapplication.domain.models.Article
 import com.example.newsapplication.domain.models.SearchQuery
-import com.example.newsapplication.domain.repositories.NetworkRepository
+import com.example.newsapplication.domain.repositories.NewsRepository
 
 class AllNewsPagingDataSource(
-    private val service: NetworkRepository,
+    private val service: NewsRepository,
     private val searchQuery: SearchQuery? = null
 ) :
     PagingSource<Int, Article>() {

@@ -22,6 +22,7 @@ import com.example.newsapplication.R
 import com.example.newsapplication.domain.models.Article
 import com.example.newsapplication.presentation.ui.theme.Shapes
 import com.example.newsapplication.presentation.ui.theme.Typography
+import com.example.newsapplication.utils.DateConverter
 import org.koin.androidx.compose.getViewModel
 import java.text.DateFormat
 
@@ -91,9 +92,8 @@ fun NewsArticleScreen(newsArticleViewModel: NewsArticleViewModel = getViewModel(
                     modifier = Modifier.weight(1f)
                 )
                 Text(
-                    text = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT)
-                        .format(article.publishedAt)
-                        ?: stringResource(id = R.string.unknown),
+                    text = if(article.publishedAt != null) DateConverter.stringToTime(article.publishedAt!!)
+                        else stringResource(id = R.string.unknown),
                     style = Typography.body2,
                 )
             }
@@ -119,7 +119,7 @@ fun NewsArticleScreen(newsArticleViewModel: NewsArticleViewModel = getViewModel(
                 modifier = Modifier
                     .clickable {
                         article.url?.let {
-                            uriHandler.openUri(article.url)
+                            uriHandler.openUri(article.url.toString())
                         }
                     },
                 style = if (article.url != null) Typography.caption else Typography.subtitle2

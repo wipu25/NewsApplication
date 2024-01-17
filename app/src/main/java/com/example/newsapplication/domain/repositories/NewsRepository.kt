@@ -4,7 +4,7 @@ import com.example.newsapplication.data.network.APIInterface
 import com.example.newsapplication.domain.models.AllNews
 import com.example.newsapplication.domain.models.SearchQuery
 
-class NetworkRepository(
+class NewsRepository(
     private val apiInterface: APIInterface
 ) {
     suspend fun getNews(page: Int, searchQuery: SearchQuery? = null): AllNews? {

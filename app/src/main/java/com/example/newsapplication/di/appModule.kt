@@ -2,7 +2,7 @@ package com.example.newsapplication.di
 
 import com.example.newsapplication.data.network.APIInterface
 import com.example.newsapplication.domain.models.Item
-import com.example.newsapplication.domain.repositories.NetworkRepository
+import com.example.newsapplication.domain.repositories.NewsRepository
 import com.example.newsapplication.domain.usecase.SelectArticleUseCase
 import com.example.newsapplication.presentation.allNews.AllNewsViewModel
 import com.example.newsapplication.presentation.newsArticle.NewsArticleViewModel
@@ -32,7 +32,7 @@ val appModule = module {
             .build()
     }
     single { get<Retrofit>().create(APIInterface::class.java) }
-    single { NetworkRepository(get()) }
+    single { NewsRepository(get()) }
     single { Realm.open(RealmConfiguration.create(schema = setOf(Item::class))) }
 }
 
