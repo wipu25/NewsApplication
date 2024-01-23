@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import com.example.newsapplication.di.appModule
-import com.example.newsapplication.domain.repositories.NewsCachingRepository
 import com.example.newsapplication.presentation.NewsApp
 import com.example.newsapplication.presentation.ui.theme.NewsApplicationTheme
 import org.koin.android.ext.koin.androidContext

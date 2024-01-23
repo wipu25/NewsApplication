@@ -2,7 +2,11 @@ package com.example.newsapplication.presentation
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
@@ -18,9 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.newsapplication.R
 import com.example.newsapplication.di.newsModule
 import com.example.newsapplication.presentation.allNews.AllNewsScreen
-import com.example.newsapplication.presentation.allNews.AllNewsViewModel
 import com.example.newsapplication.presentation.newsArticle.NewsArticleScreen
-import org.koin.androidx.compose.koinViewModel
 import org.koin.compose.module.rememberKoinModules
 import org.koin.core.annotation.KoinExperimentalAPI
 
@@ -57,7 +59,7 @@ fun NewsAppBar(
 fun NewsApp(
     navController: NavHostController = rememberNavController(),
 ) {
-    rememberKoinModules(unloadOnForgotten = true,modules = { listOf(newsModule) })
+    rememberKoinModules(unloadOnForgotten = true, modules = { listOf(newsModule) })
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = NewsScreen.valueOf(
         backStackEntry?.destination?.route ?: NewsScreen.AllNews.name

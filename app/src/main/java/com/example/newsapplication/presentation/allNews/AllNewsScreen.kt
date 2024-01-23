@@ -1,12 +1,22 @@
 package com.example.newsapplication.presentation.allNews
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,17 +35,12 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun AllNewsScreen(viewModel: AllNewsViewModel = getViewModel(), navigateToArticle: () -> Unit) {
-    var reload by remember { mutableStateOf(false) }
+    Log.d("reload", "called reload")
     val categoryScrollState = rememberScrollState()
 
     var articleList = viewModel.getNews().collectAsLazyPagingItems()
     val searchText = viewModel.searchText.observeAsState("")
     val categoryChip = viewModel.categoryChip.observeAsState()
-
-    if (reload) {
-        articleList = viewModel.getNews().collectAsLazyPagingItems()
-        reload = false
-    }
 
     Box {
         Column {
@@ -50,7 +55,6 @@ fun AllNewsScreen(viewModel: AllNewsViewModel = getViewModel(), navigateToArticl
                     value = searchText.value,
                     onValueChange = {
                         viewModel.updateSearch(it)
-                        reload = true
                     },
                     leadingIcon = {
                         Icon(
@@ -91,7 +95,6 @@ fun AllNewsScreen(viewModel: AllNewsViewModel = getViewModel(), navigateToArticl
                         text = category.value,
                         onChecked = {
                             viewModel.updateCategory(category)
-                            reload = true
                         })
                 }
             }
@@ -124,6 +127,7 @@ fun AllNewsScreen(viewModel: AllNewsViewModel = getViewModel(), navigateToArticl
                             }
                         }
                     }
+
                     is LoadState.Loading -> { // Loading UI
                         item {
                             Column(
@@ -141,6 +145,7 @@ fun AllNewsScreen(viewModel: AllNewsViewModel = getViewModel(), navigateToArticl
                             }
                         }
                     }
+
                     else -> {}
                 }
 
@@ -161,6 +166,7 @@ fun AllNewsScreen(viewModel: AllNewsViewModel = getViewModel(), navigateToArticl
                             }
                         }
                     }
+
                     is LoadState.Loading -> { // Pagination Loading UI
                         item {
                             Column(
@@ -174,6 +180,7 @@ fun AllNewsScreen(viewModel: AllNewsViewModel = getViewModel(), navigateToArticl
                             }
                         }
                     }
+
                     else -> {}
                 }
             }

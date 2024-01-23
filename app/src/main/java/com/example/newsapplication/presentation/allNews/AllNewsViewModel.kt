@@ -16,7 +16,11 @@ import com.example.newsapplication.domain.repositories.NewsRepository
 import com.example.newsapplication.domain.usecase.SelectArticleUseCase
 import kotlinx.coroutines.flow.Flow
 
-class AllNewsViewModel(private val newsRepository: NewsRepository, private val selectArticleUseCase: SelectArticleUseCase, private val newsCachingRepository: NewsCachingRepository) : ViewModel() {
+class AllNewsViewModel(
+    private val newsRepository: NewsRepository,
+    private val selectArticleUseCase: SelectArticleUseCase,
+    private val newsCachingRepository: NewsCachingRepository
+) : ViewModel() {
     private val _searchQuery: MutableLiveData<SearchQuery?> = MutableLiveData(SearchQuery())
     private val _searchText: MutableLiveData<String> = MutableLiveData("")
     private val _categoryChip: MutableLiveData<Category> = MutableLiveData(Category.GENERAL)

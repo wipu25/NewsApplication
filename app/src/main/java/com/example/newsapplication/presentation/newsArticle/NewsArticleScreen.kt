@@ -3,7 +3,15 @@ package com.example.newsapplication.presentation.newsArticle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
@@ -17,14 +25,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.bumptech.glide.integration.compose.*
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideSubcomposition
+import com.bumptech.glide.integration.compose.RequestState
 import com.example.newsapplication.R
-import com.example.newsapplication.domain.models.Article
 import com.example.newsapplication.presentation.ui.theme.Shapes
 import com.example.newsapplication.presentation.ui.theme.Typography
 import com.example.newsapplication.utils.DateConverter
 import org.koin.androidx.compose.getViewModel
-import java.text.DateFormat
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -54,7 +62,10 @@ fun NewsArticleScreen(newsArticleViewModel: NewsArticleViewModel = getViewModel(
                             .height(160.dp),
                     ) {
                         when (state) {
-                            RequestState.Failure,RequestState.Loading -> CircularProgressIndicator(modifier = Modifier.height(40.dp))
+                            RequestState.Failure, RequestState.Loading -> CircularProgressIndicator(
+                                modifier = Modifier.height(40.dp)
+                            )
+
                             is RequestState.Success -> Image(
                                 modifier = Modifier.fillMaxSize(),
                                 painter = painter,
@@ -92,8 +103,8 @@ fun NewsArticleScreen(newsArticleViewModel: NewsArticleViewModel = getViewModel(
                     modifier = Modifier.weight(1f)
                 )
                 Text(
-                    text = if(article.publishedAt != null) DateConverter.stringToTime(article.publishedAt!!)
-                        else stringResource(id = R.string.unknown),
+                    text = if (article.publishedAt != null) DateConverter.stringToTime(article.publishedAt!!)
+                    else stringResource(id = R.string.unknown),
                     style = Typography.body2,
                 )
             }

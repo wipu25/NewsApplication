@@ -6,6 +6,7 @@ import io.realm.kotlin.types.annotations.PrimaryKey
 class Article : RealmObject {
     @PrimaryKey
     var id: String = ""
+    var category: String = Category.GENERAL.value
     var author: String? = null
     var content: String? = null
     var description: String? = null

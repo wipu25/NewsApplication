@@ -6,7 +6,7 @@ import java.util.TimeZone
 class DateConverter {
     companion object {
         fun stringToTime(dateTime: String): String {
-            if(dateTime.isEmpty()) {
+            if (dateTime.isEmpty()) {
                 return ""
             }
             val formatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
