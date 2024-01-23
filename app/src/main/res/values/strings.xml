@@ -8,7 +8,7 @@
     <string name="close_icon">Close Icon</string>
 
     <string name="search_placeholder">Search Here!!!</string>
-    <string name="error_loading">Error Loading News</string>
+    <string name="error_loading">No Internet connection or Exceed request</string>
     <string name="loading">Loading News</string>
     <string name="loading_more">Loading More News</string>
     <string name="news_image">News Image</string>

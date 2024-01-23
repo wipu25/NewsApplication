@@ -17,6 +17,10 @@ class NewsCachingRepository {
     private var currentFetch: Int? = null
     private var currentCategory: Category = Category.GENERAL
     private var _shouldUseDb: Boolean = false
+    private var _maxLocalCaching: Boolean = false
+
+    val maxLocalCaching
+        get() = _maxLocalCaching
 
     fun checkUseDb(searchQuery: SearchQuery?): Boolean {
         Log.d("category", searchQuery?.category?.value ?: "")
@@ -28,7 +32,7 @@ class NewsCachingRepository {
         return _shouldUseDb
     }
 
-    suspend fun isArticleExist(queryList: ArrayList<Article>?, searchQuery: SearchQuery?) {
+    suspend fun isArticleExist(queryList: List<Article>?, searchQuery: SearchQuery?) {
         val category = searchQuery?.category?.value ?: Category.GENERAL.value
         val categoryArticleList =
             realm.query(Article::class, "category == $0", category)
@@ -55,9 +59,13 @@ class NewsCachingRepository {
         }
     }
 
+    fun setOffline() {
+        _shouldUseDb = true
+    }
+
     fun getFromDb(category: Category? = Category.GENERAL): List<Article> {
         if (currentFetch == null) {
-            currentFetch = 10 - recentArticle!!
+            currentFetch = 10 - (recentArticle ?: 10)
         }
         val categoryArticleList =
             realm.query(Article::class, "category == $0", category?.value)
@@ -66,6 +74,7 @@ class NewsCachingRepository {
         currentFetch = currentFetch!! + 10
         if (currentFetch!! + 10 > categoryArticleList.size) {
             _shouldUseDb = false
+            _maxLocalCaching = true
         }
         return result
     }
