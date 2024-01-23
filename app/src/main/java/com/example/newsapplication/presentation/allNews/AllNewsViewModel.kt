@@ -11,11 +11,12 @@ import androidx.paging.cachedIn
 import com.example.newsapplication.domain.models.Article
 import com.example.newsapplication.domain.models.Category
 import com.example.newsapplication.domain.models.SearchQuery
+import com.example.newsapplication.domain.repositories.NewsCachingRepository
 import com.example.newsapplication.domain.repositories.NewsRepository
 import com.example.newsapplication.domain.usecase.SelectArticleUseCase
 import kotlinx.coroutines.flow.Flow
 
-class AllNewsViewModel(private val newsRepository: NewsRepository, private val selectArticleUseCase: SelectArticleUseCase) : ViewModel() {
+class AllNewsViewModel(private val newsRepository: NewsRepository, private val selectArticleUseCase: SelectArticleUseCase, private val newsCachingRepository: NewsCachingRepository) : ViewModel() {
     private val _searchQuery: MutableLiveData<SearchQuery?> = MutableLiveData(SearchQuery())
     private val _searchText: MutableLiveData<String> = MutableLiveData("")
     private val _categoryChip: MutableLiveData<Category> = MutableLiveData(Category.GENERAL)
@@ -46,6 +47,7 @@ class AllNewsViewModel(private val newsRepository: NewsRepository, private val s
             pagingSourceFactory = {
                 AllNewsPagingDataSource(
                     newsRepository,
+                    newsCachingRepository,
                     _searchQuery.value
                 )
             },

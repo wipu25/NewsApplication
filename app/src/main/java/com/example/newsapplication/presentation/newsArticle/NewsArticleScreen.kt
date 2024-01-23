@@ -83,7 +83,7 @@ fun NewsArticleScreen(newsArticleViewModel: NewsArticleViewModel = getViewModel(
             Row(Modifier.fillMaxWidth()) {
                 Text(
                     text = "${article.author ?: " ${stringResource(id = R.string.unknown)} "}, ${
-                        article.source?.name ?: stringResource(
+                        article.source ?: stringResource(
                             id = R.string.unknown
                         )
                     }", style = Typography.body2,

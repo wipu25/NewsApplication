@@ -2,7 +2,6 @@ package com.example.newsapplication.domain.models
 
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
-import java.util.*
 
 class Article : RealmObject {
     @PrimaryKey
