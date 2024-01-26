@@ -1,6 +1,5 @@
 package com.example.newsapplication.presentation
 
-import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
@@ -10,9 +9,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -38,7 +35,8 @@ fun NewsAppBar(
     navController: NavHostController,
 ) {
     val currentScreen = NewsScreen.valueOf(
-        navController.currentBackStackEntryAsState().value?.destination?.route ?: NewsScreen.AllNews.name
+        navController.currentBackStackEntryAsState().value?.destination?.route
+            ?: NewsScreen.AllNews.name
     )
     TopAppBar(
         title = { Text(stringResource(currentScreen.title)) },

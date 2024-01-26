@@ -25,7 +25,7 @@ class AllNewsViewModel(
     private val _searchQuery: MutableLiveData<SearchQuery> = MutableLiveData(SearchQuery())
     private val _searchText: MutableLiveData<String> = MutableLiveData("")
     private val _categoryChip: MutableLiveData<Category> = MutableLiveData(Category.GENERAL)
-    private var _items: MutableLiveData<Flow<PagingData<Article>>> = MutableLiveData(flow {  })
+    private var _items: MutableLiveData<Flow<PagingData<Article>>> = MutableLiveData(flow { })
 
     init {
         getNews()

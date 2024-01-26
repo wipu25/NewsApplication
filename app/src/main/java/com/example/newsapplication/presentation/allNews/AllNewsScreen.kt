@@ -1,6 +1,5 @@
 package com.example.newsapplication.presentation.allNews
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -28,7 +27,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.newsapplication.R
 import com.example.newsapplication.di.allNewsModule
-import com.example.newsapplication.di.newsModule
 import com.example.newsapplication.domain.models.Category
 import com.example.newsapplication.presentation.allNews.components.CategoryChip
 import com.example.newsapplication.presentation.allNews.components.NewsItem
