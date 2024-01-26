@@ -14,7 +14,7 @@ class DateConverter {
             val value = formatter.parse(dateTime)
             val dateFormatter = SimpleDateFormat("dd-MM-yyyy hh:mm a") //this format changeable
             dateFormatter.timeZone = TimeZone.getDefault()
-            return dateFormatter.format(value)
+            return dateFormatter.format(value!!)
         }
     }
 }

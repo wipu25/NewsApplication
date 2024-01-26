@@ -35,7 +35,6 @@ import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun AllNewsScreen(viewModel: AllNewsViewModel = getViewModel(), navigateToArticle: () -> Unit) {
-    Log.d("reload", "called reload")
     val categoryScrollState = rememberScrollState()
 
     var articleList = viewModel.getNews().collectAsLazyPagingItems()

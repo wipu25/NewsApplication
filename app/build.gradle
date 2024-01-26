@@ -28,17 +28,17 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildFeatures {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion '1.5.4'
+        kotlinCompilerExtensionVersion '1.5.8'
     }
     packagingOptions {
         resources {
@@ -56,16 +56,13 @@ android {
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
-    implementation 'androidx.activity:activity-compose:1.3.1'
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+    implementation 'androidx.activity:activity-compose:1.8.2'
     implementation "androidx.compose.ui:ui:$compose_ui_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_ui_version"
     implementation "androidx.compose.material:material:$compose_ui_version"
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
 
@@ -80,24 +77,23 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10.1'
 
     //pagination
-    implementation "androidx.paging:paging-runtime:3.2.0"
-    implementation "androidx.paging:paging-compose:3.2.0"
+    implementation "androidx.paging:paging-runtime-ktx:$paging_version"
+    implementation "androidx.paging:paging-compose:$paging_version"
 
     //image
     implementation "com.github.bumptech.glide:compose:1.0.0-beta01"
-    implementation 'androidx.compose.runtime:runtime-livedata:1.4.3'
+    implementation 'androidx.compose.runtime:runtime-livedata:1.6.0'
 
 
     //nav host
-    implementation "androidx.navigation:navigation-compose:2.6.0"
+    implementation "androidx.navigation:navigation-compose:2.7.6"
 
     //koin
     implementation "io.insert-koin:koin-core:3.4.3"
     implementation "io.insert-koin:koin-androidx-compose:3.4.6"
 
-//    realm
-    implementation "io.realm.kotlin:library-base:$realm_version"
-    implementation "io.realm.kotlin:library-sync:$realm_version"// If using Device Sync
+    //realm
+    implementation "io.realm.kotlin:library-base:1.12.0"
 
     testImplementation "org.mockito.kotlin:mockito-kotlin:4.1.0"
     testImplementation "io.insert-koin:koin-test:3.4.3"
@@ -105,7 +101,12 @@ dependencies {
     testImplementation 'androidx.arch.core:core-testing:2.2.0'
     testImplementation 'com.squareup.retrofit2:retrofit-mock:2.9.0'
 
+    //test
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     androidTestImplementation "io.mockk:mockk-android:1.13.7"
     androidTestImplementation "io.mockk:mockk-agent:1.13.7"
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
+
 }
