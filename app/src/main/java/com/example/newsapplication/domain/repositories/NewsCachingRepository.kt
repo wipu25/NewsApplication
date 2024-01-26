@@ -15,25 +15,26 @@ class NewsCachingRepository {
         Realm.open(RealmConfiguration.create(schema = setOf(Article::class, Source::class)))
     private var recentArticle: Int? = null
     private var currentFetch: Int? = null
-    private var currentCategory: Category = Category.GENERAL
+    private var currentSearchQuery: SearchQuery = SearchQuery(category = Category.GENERAL, query = "")
     private var _shouldUseDb: Boolean = false
     private var _maxLocalCaching: Boolean = false
 
     val maxLocalCaching
         get() = _maxLocalCaching
 
-    fun checkUseDb(searchQuery: SearchQuery?): Boolean {
-        Log.d("category", searchQuery?.category?.value ?: "")
-        if (currentCategory != searchQuery?.category) {
-            currentCategory = searchQuery!!.category
+    fun checkUseDb(searchQuery: SearchQuery): Boolean {
+        Log.d("category", searchQuery.category.value)
+        if (currentSearchQuery.category != searchQuery.category || searchQuery.query != currentSearchQuery.query ) {
+            currentSearchQuery.category = searchQuery.category
+            currentSearchQuery.query = searchQuery.query
             currentFetch = 0
             _shouldUseDb = false
         }
         return _shouldUseDb
     }
 
-    suspend fun isArticleExist(queryList: List<Article>?, searchQuery: SearchQuery?) {
-        val category = searchQuery?.category?.value ?: Category.GENERAL.value
+    suspend fun isArticleExist(queryList: List<Article>?, searchQuery: SearchQuery) {
+        val category = searchQuery.category.value
         val categoryArticleList =
             realm.query(Article::class, "category == $0", category)
                 .find().sortedByDescending { DateConverter.stringToTime(it.publishedAt!!) }
@@ -80,7 +81,6 @@ class NewsCachingRepository {
     }
 
     private suspend fun writeArticle(article: Article) {
-        coroutineScope {
             realm.write {
                 val savedSource: Source? =
                     this.query(Source::class, "id == $0", article.source!!.id)
@@ -91,6 +91,5 @@ class NewsCachingRepository {
                     }
                 })
             }
-        }
     }
 }

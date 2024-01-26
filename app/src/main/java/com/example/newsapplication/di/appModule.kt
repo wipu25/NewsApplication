@@ -36,6 +36,13 @@ val appModule = module {
 
 val newsModule = module {
     single { SelectArticleUseCase() }
+    viewModel { NewsArticleViewModel(get()) }
+}
+
+val allNewsModule = module {
     viewModel { AllNewsViewModel(get(), get(), get()) }
+}
+
+val newsArticleModule = module {
     viewModel { NewsArticleViewModel(get()) }
 }

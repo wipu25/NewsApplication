@@ -1,5 +1,6 @@
 package com.example.newsapplication.presentation
 
+import android.util.Log
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
@@ -34,17 +35,16 @@ enum class NewsScreen(@StringRes val title: Int) {
 
 @Composable
 fun NewsAppBar(
-    currentScreen: NewsScreen,
-    canNavigateBack: Boolean,
-    navigateBack: () -> Unit,
-    modifier: Modifier = Modifier
+    navController: NavHostController,
 ) {
+    val currentScreen = NewsScreen.valueOf(
+        navController.currentBackStackEntryAsState().value?.destination?.route ?: NewsScreen.AllNews.name
+    )
     TopAppBar(
         title = { Text(stringResource(currentScreen.title)) },
-        modifier = modifier,
         navigationIcon = {
-            if (canNavigateBack) {
-                IconButton(onClick = navigateBack) {
+            if (navController.previousBackStackEntry != null) {
+                IconButton(onClick = { navController.navigateUp() }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                         contentDescription = stringResource(id = R.string.back_button)
@@ -61,15 +61,10 @@ fun NewsApp(
     navController: NavHostController = rememberNavController(),
 ) {
     rememberKoinModules(unloadOnForgotten = true, modules = { listOf(newsModule) })
-    val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen = NewsScreen.valueOf(
-        backStackEntry?.destination?.route ?: NewsScreen.AllNews.name
-    )
     Scaffold(
         topBar = {
-            NewsAppBar(currentScreen = currentScreen,
-                canNavigateBack = navController.previousBackStackEntry != null,
-                navigateBack = { navController.navigateUp() }
+            NewsAppBar(
+                navController = navController
             )
         },
         backgroundColor = Color.LightGray

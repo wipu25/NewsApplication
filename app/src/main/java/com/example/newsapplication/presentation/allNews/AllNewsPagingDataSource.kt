@@ -10,15 +10,15 @@ import com.example.newsapplication.domain.repositories.NewsRepository
 class AllNewsPagingDataSource(
     private val service: NewsRepository,
     private val newsCachingRepository: NewsCachingRepository,
-    private val searchQuery: SearchQuery? = null
+    private val searchQuery: SearchQuery
 ) :
     PagingSource<Int, Article>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Article> {
         val pageNumber = params.key ?: 1
         var nextPageNumber: Int? = pageNumber + 1
         var data: List<Article>? = null
-        if (newsCachingRepository.checkUseDb(searchQuery) && (searchQuery == null || searchQuery.query.isEmpty())) {
-            data = newsCachingRepository.getFromDb(searchQuery?.category)
+        if (newsCachingRepository.checkUseDb(searchQuery) && searchQuery.query.isEmpty()) {
+            data = newsCachingRepository.getFromDb(searchQuery.category)
         } else {
             if (pageNumber >= 10) {
                 nextPageNumber = null
@@ -32,7 +32,7 @@ class AllNewsPagingDataSource(
                         nextPageNumber = null
                     } else {
                         newsCachingRepository.setOffline()
-                        data = newsCachingRepository.getFromDb(searchQuery?.category)
+                        data = newsCachingRepository.getFromDb(searchQuery.category)
                     }
                 }
             }

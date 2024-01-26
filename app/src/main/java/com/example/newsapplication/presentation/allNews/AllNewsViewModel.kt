@@ -15,16 +15,24 @@ import com.example.newsapplication.domain.repositories.NewsCachingRepository
 import com.example.newsapplication.domain.repositories.NewsRepository
 import com.example.newsapplication.domain.usecase.SelectArticleUseCase
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 
 class AllNewsViewModel(
     private val newsRepository: NewsRepository,
     private val selectArticleUseCase: SelectArticleUseCase,
     private val newsCachingRepository: NewsCachingRepository
 ) : ViewModel() {
-    private val _searchQuery: MutableLiveData<SearchQuery?> = MutableLiveData(SearchQuery())
+    private val _searchQuery: MutableLiveData<SearchQuery> = MutableLiveData(SearchQuery())
     private val _searchText: MutableLiveData<String> = MutableLiveData("")
     private val _categoryChip: MutableLiveData<Category> = MutableLiveData(Category.GENERAL)
+    private var _items: MutableLiveData<Flow<PagingData<Article>>> = MutableLiveData(flow {  })
 
+    init {
+        getNews()
+    }
+
+    val items: LiveData<Flow<PagingData<Article>>>
+        get() = _items
     val searchText: LiveData<String>
         get() = _searchText
     val categoryChip: LiveData<Category>
@@ -35,6 +43,7 @@ class AllNewsViewModel(
     fun updateSearch(value: String) {
         _searchText.value = value
         _searchQuery.value = SearchQuery(query = value)
+        getNews()
     }
 
     fun selectNewArticle(value: Article) {
@@ -44,15 +53,16 @@ class AllNewsViewModel(
     fun updateCategory(value: Category) {
         _categoryChip.value = value
         _searchQuery.value = SearchQuery(query = _searchText.value!!, category = value)
+        getNews()
     }
 
-    fun getNews(): Flow<PagingData<Article>> {
-        return Pager(
+    private fun getNews() {
+        _items.value = Pager(
             pagingSourceFactory = {
                 AllNewsPagingDataSource(
                     newsRepository,
                     newsCachingRepository,
-                    _searchQuery.value
+                    _searchQuery.value!!
                 )
             },
             config = PagingConfig(pageSize = 10)

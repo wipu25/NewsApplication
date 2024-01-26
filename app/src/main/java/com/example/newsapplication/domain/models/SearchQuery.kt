@@ -11,6 +11,6 @@ enum class Category(val value: String) {
 }
 
 data class SearchQuery(
-    val query: String = "",
-    val category: Category = Category.GENERAL
+    var query: String = "",
+    var category: Category = Category.GENERAL
 )

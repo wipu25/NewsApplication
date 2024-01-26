@@ -29,14 +29,19 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideSubcomposition
 import com.bumptech.glide.integration.compose.RequestState
 import com.example.newsapplication.R
+import com.example.newsapplication.di.allNewsModule
+import com.example.newsapplication.di.newsArticleModule
 import com.example.newsapplication.presentation.ui.theme.Shapes
 import com.example.newsapplication.presentation.ui.theme.Typography
 import com.example.newsapplication.utils.DateConverter
 import org.koin.androidx.compose.getViewModel
+import org.koin.compose.module.rememberKoinModules
+import org.koin.core.annotation.KoinExperimentalAPI
 
-@OptIn(ExperimentalGlideComposeApi::class)
+@OptIn(ExperimentalGlideComposeApi::class, KoinExperimentalAPI::class)
 @Composable
 fun NewsArticleScreen(newsArticleViewModel: NewsArticleViewModel = getViewModel()) {
+    rememberKoinModules(unloadOnForgotten = true, modules = { listOf(newsArticleModule) })
     val article = newsArticleViewModel.selectArticle
     val uriHandler = LocalUriHandler.current
     Box(
