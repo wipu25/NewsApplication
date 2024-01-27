@@ -19,11 +19,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.newsapplication.R
-import com.example.newsapplication.di.newsModule
 import com.example.newsapplication.presentation.allNews.AllNewsScreen
 import com.example.newsapplication.presentation.newsArticle.NewsArticleScreen
-import org.koin.compose.module.rememberKoinModules
-import org.koin.core.annotation.KoinExperimentalAPI
 
 enum class NewsScreen(@StringRes val title: Int) {
     AllNews(title = R.string.all_news),
@@ -53,12 +50,10 @@ fun NewsAppBar(
     )
 }
 
-@OptIn(KoinExperimentalAPI::class)
 @Composable
 fun NewsApp(
     navController: NavHostController = rememberNavController(),
 ) {
-    rememberKoinModules(unloadOnForgotten = true, modules = { listOf(newsModule) })
     Scaffold(
         topBar = {
             NewsAppBar(
@@ -73,6 +68,7 @@ fun NewsApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(NewsScreen.AllNews.name) {
+
                 AllNewsScreen(
                     navigateToArticle = { navController.navigate(NewsScreen.NewsArticle.name) })
             }
