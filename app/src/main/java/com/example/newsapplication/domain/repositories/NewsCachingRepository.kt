@@ -10,6 +10,10 @@ import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
 import io.realm.kotlin.query.RealmResults
 import io.realm.kotlin.query.Sort
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class NewsCachingRepository {
     private var realm: Realm =
@@ -36,6 +40,7 @@ class NewsCachingRepository {
             currentSearchQuery.query = searchQuery.query
             currentFetch = 0
             _shouldUseDb = false
+            _maxLocalCaching = false
         }
         return _shouldUseDb
     }
@@ -66,15 +71,18 @@ class NewsCachingRepository {
         }
     }
 
-    fun setOffline() {
+    suspend fun setOffline() {
         getDbData()
         _shouldUseDb = true
     }
 
-    private fun getDbData() {
-        _categoryArticleList =
-            realm.query(Article::class, "category == $0", currentSearchQuery.category.value).sort("epochTime", Sort.DESCENDING)
-                .find()
+    private suspend fun getDbData() {
+        runBlocking {
+            _categoryArticleList = withContext(Dispatchers.IO) {
+                realm.query(Article::class, "category == $0", currentSearchQuery.category.value).sort("epochTime", Sort.DESCENDING)
+                    .find()
+            }
+        }
     }
 
     fun getFromDb(): List<Article> {
@@ -91,15 +99,17 @@ class NewsCachingRepository {
     }
 
     private suspend fun writeArticle(article: Article) {
-        realm.write {
-            val savedSource: Source? =
-                this.query(Source::class, "id == $0", article.source!!.id)
-                    .find().firstOrNull()
-            copyToRealm(article.apply {
-                if (savedSource != null) {
-                    source = savedSource
-                }
-            })
+        withContext(Dispatchers.IO) {
+            realm.write {
+                val savedSource: Source? =
+                    this.query(Source::class, "id == $0", article.source!!.id)
+                        .find().firstOrNull()
+                copyToRealm(article.apply {
+                    if (savedSource != null) {
+                        source = savedSource
+                    }
+                })
+            }
         }
     }
 }

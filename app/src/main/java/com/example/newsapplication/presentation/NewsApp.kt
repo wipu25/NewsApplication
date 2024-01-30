@@ -68,7 +68,6 @@ fun NewsApp(
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(NewsScreen.AllNews.name) {
-
                 AllNewsScreen(
                     navigateToArticle = { navController.navigate(NewsScreen.NewsArticle.name) })
             }
