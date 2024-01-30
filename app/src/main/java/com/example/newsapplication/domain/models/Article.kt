@@ -11,6 +11,7 @@ class Article : RealmObject {
     var content: String? = null
     var description: String? = null
     var publishedAt: String? = null
+    var epochTime: Long? = null
     var source: Source? = null
     var title: String? = null
     var url: String? = null

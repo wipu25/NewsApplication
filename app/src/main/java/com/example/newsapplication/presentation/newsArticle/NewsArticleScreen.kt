@@ -29,6 +29,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideSubcomposition
 import com.bumptech.glide.integration.compose.RequestState
 import com.example.newsapplication.R
+import com.example.newsapplication.domain.models.Article
 import com.example.newsapplication.presentation.ui.theme.Shapes
 import com.example.newsapplication.presentation.ui.theme.Typography
 import com.example.newsapplication.utils.DateConverter

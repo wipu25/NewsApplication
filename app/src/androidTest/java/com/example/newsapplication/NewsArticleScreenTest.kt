@@ -4,7 +4,9 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import com.example.newsapplication.domain.models.Article
+import com.example.newsapplication.domain.usecase.SelectArticleUseCase
 import com.example.newsapplication.presentation.newsArticle.NewsArticleScreen
+import com.example.newsapplication.presentation.newsArticle.NewsArticleViewModel
 import com.example.newsapplication.presentation.ui.theme.NewsApplicationTheme
 import org.junit.Rule
 import org.junit.Test
@@ -17,19 +19,20 @@ class NewsArticleScreenTest {
 
     @Test
     fun checkContentDisplay() {
-        val testArticle = Article(
-            author = "Steve",
-            title = "1 man",
-            content = null,
-            description = null,
-            publishedAt = Date(),
-            source = null,
-            url = null,
+        val testArticle = Article()
+        testArticle.apply {
+            author = "Steve"
+            title = "1 man"
+            content = null
+            description = null
+            publishedAt = Date().toString()
+            source = null
+            url = null
             urlToImage = null
-        )
+        }
         composeTestRule.setContent {
             NewsApplicationTheme {
-                NewsArticleScreen(testArticle)
+                NewsArticleScreen(NewsArticleViewModel(SelectArticleUseCase()))
             }
         }
 

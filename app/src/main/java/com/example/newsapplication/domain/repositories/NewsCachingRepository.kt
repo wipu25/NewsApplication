@@ -8,6 +8,8 @@ import com.example.newsapplication.domain.models.Source
 import com.example.newsapplication.utils.DateConverter
 import io.realm.kotlin.Realm
 import io.realm.kotlin.RealmConfiguration
+import io.realm.kotlin.query.RealmResults
+import io.realm.kotlin.query.Sort
 
 class NewsCachingRepository {
     private var realm: Realm =
@@ -18,12 +20,17 @@ class NewsCachingRepository {
         SearchQuery(category = Category.GENERAL, query = "")
     private var _shouldUseDb: Boolean = false
     private var _maxLocalCaching: Boolean = false
+    private var _categoryArticleList: RealmResults<Article>? = null
+
+    init {
+        _categoryArticleList = realm.query(Article::class, "category == $0", Category.GENERAL.value).sort("epochTime", Sort.DESCENDING)
+            .find()
+    }
 
     val maxLocalCaching
         get() = _maxLocalCaching
 
     fun checkUseDb(searchQuery: SearchQuery): Boolean {
-        Log.d("category", searchQuery.category.value)
         if (currentSearchQuery.category != searchQuery.category || searchQuery.query != currentSearchQuery.query) {
             currentSearchQuery.category = searchQuery.category
             currentSearchQuery.query = searchQuery.query
@@ -35,9 +42,6 @@ class NewsCachingRepository {
 
     suspend fun isArticleExist(queryList: List<Article>?, searchQuery: SearchQuery) {
         val category = searchQuery.category.value
-        val categoryArticleList =
-            realm.query(Article::class, "category == $0", category)
-                .find().sortedByDescending { DateConverter.stringToTime(it.publishedAt!!) }
         if (queryList.isNullOrEmpty()) {
             return
         }
@@ -49,10 +53,12 @@ class NewsCachingRepository {
             article.apply {
                 id = genId
                 this.category = category
+                epochTime = DateConverter.stringToEpoch(article.publishedAt)
             }
-            if (categoryArticleList.firstOrNull { it.id == genId } == null) {
+            if (_categoryArticleList!!.firstOrNull { it.id == genId } == null) {
                 writeArticle(article)
             } else {
+                getDbData()
                 recentArticle = i
                 _shouldUseDb = true
                 return
@@ -61,19 +67,23 @@ class NewsCachingRepository {
     }
 
     fun setOffline() {
+        getDbData()
         _shouldUseDb = true
     }
 
-    fun getFromDb(category: Category? = Category.GENERAL): List<Article> {
+    private fun getDbData() {
+        _categoryArticleList =
+            realm.query(Article::class, "category == $0", currentSearchQuery.category.value).sort("epochTime", Sort.DESCENDING)
+                .find()
+    }
+
+    fun getFromDb(): List<Article> {
         if (currentFetch == null) {
             currentFetch = 10 - (recentArticle ?: 10)
         }
-        val categoryArticleList =
-            realm.query(Article::class, "category == $0", category?.value)
-                .find().sortedByDescending { DateConverter.stringToTime(it.publishedAt!!) }
-        val result = categoryArticleList.subList(currentFetch!!, currentFetch!! + 10)
+        val result = _categoryArticleList!!.subList(currentFetch!!, currentFetch!! + 10)
         currentFetch = currentFetch!! + 10
-        if (currentFetch!! + 10 > categoryArticleList.size) {
+        if (currentFetch!! + 10 > _categoryArticleList!!.size) {
             _shouldUseDb = false
             _maxLocalCaching = true
         }

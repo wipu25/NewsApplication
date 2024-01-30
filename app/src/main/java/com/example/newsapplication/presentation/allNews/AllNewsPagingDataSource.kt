@@ -18,7 +18,7 @@ class AllNewsPagingDataSource(
         var nextPageNumber: Int? = pageNumber + 1
         var data: List<Article>? = null
         if (newsCachingRepository.checkUseDb(searchQuery) && searchQuery.query.isEmpty()) {
-            data = newsCachingRepository.getFromDb(searchQuery.category)
+            data = newsCachingRepository.getFromDb()
         } else {
             if (pageNumber >= 10) {
                 nextPageNumber = null
@@ -32,7 +32,7 @@ class AllNewsPagingDataSource(
                         nextPageNumber = null
                     } else {
                         newsCachingRepository.setOffline()
-                        data = newsCachingRepository.getFromDb(searchQuery.category)
+                        data = newsCachingRepository.getFromDb()
                     }
                 }
             }

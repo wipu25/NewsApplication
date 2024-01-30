@@ -16,12 +16,12 @@ import kotlin.test.assertEquals
 class NetworkRepositoryTest {
     @Mock
     lateinit var networkLayer: APIInterface
-    lateinit var networkRepository: NetworkRepository
+    private lateinit var newsRepository: NewsRepository
 
     @Before
     internal fun setUp() {
         MockitoAnnotations.initMocks(this)
-        networkRepository = NetworkRepository(networkLayer)
+        newsRepository = NewsRepository(networkLayer)
     }
 
     @Test
@@ -29,7 +29,7 @@ class NetworkRepositoryTest {
         runBlocking {
             whenever(networkLayer.getNewsByPage(1,""))
                 .thenReturn(Response.success(AllNews(status = "200", totalResult = 0, articles = arrayListOf())))
-            val result = networkRepository.getNews(1, SearchQuery())
+            val result = newsRepository.getNews(1, SearchQuery())
             assertEquals(result,AllNews(status = "200", totalResult = 0, articles = arrayListOf()))
         }
     }
@@ -39,7 +39,7 @@ class NetworkRepositoryTest {
         runBlocking {
             whenever(networkLayer.getNewsByPage(1,""))
                 .thenReturn(Response.error(404, ResponseBody.create(null,"Not found")))
-            networkRepository.getNews(1, SearchQuery())
+            newsRepository.getNews(1, SearchQuery())
         }
     }
 }
